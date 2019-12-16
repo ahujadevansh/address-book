@@ -37,7 +37,7 @@ function db_select($query)
     if($result === false):
         return false;
     endif;
-    
+
     $rows = array();
     while($row = mysqli_fetch_assoc($result)):
         $rows[] = $row;
@@ -55,4 +55,8 @@ function db_quote($value)
 function dd($variable)
 {
     die(var_dump($variable));
+}
+
+function db_insert(){
+    
 }
