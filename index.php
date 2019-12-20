@@ -1,5 +1,6 @@
 <?php
 require_once('includes/function.inc.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,9 +45,9 @@ require_once('includes/function.inc.php');
     <!-- Add a New Contact Link-->
     <div class="row mt50">
         <div class="col s12 right-align">
-            <a class="btn waves-effect waves-light blue lighten-2" href="add-contact.html"><i
-                    class="material-icons left">add</i> Add
-                New</a>
+            <a class="btn waves-effect waves-light blue lighten-2" href="add-contact.php"><i
+                    class="material-icons left">add</i> Add NEw
+            </a>
         </div>
     </div>
     <!-- /Add a New Contact Link-->
@@ -94,14 +95,14 @@ endif;
 foreach($rows as $row):
 ?>
                     <tr>
-                        <td><img class="circle" src="images/users/<?= $row['image_name'];?>" alt="" height="60%"></td>
+                        <td><img class="circle" src="images/users/<?= $row['image_name'];?>" alt="" height="125px"></td>
                         <td><?= $row['first_name'] .' ' .$row['last_name'] ?></td>
                         <td><?= $row['email']?></td>
                         <td><?= $row['birthdate']?></td>
                         <td><?= $row['email']?></td>
                         <td><?= $row['telephone']?></td>
-                        <td><a class="btn btn-floating green lighten-2"><i class="material-icons">edit</i></a></td>
-                        <td><a class="btn btn-floating red lighten-2 modal-trigger" href="#deleteModal"><i class="material-icons">delete_forever</i></a>
+                        <td><a class="btn btn-floating green lighten-2" href=<?="update-contact.php?id=".$row['id']?>><i class="material-icons">edit</i></a></td>
+                        <td><a class="btn btn-floating red lighten-2 modal-trigger delete-contact" href="#deleteModal" data-id=<?= $row['id']?>><i class="material-icons">delete_forever</i></a>
                         </td>
                     </tr>
 <?php
@@ -146,8 +147,11 @@ endfor;
             <p>Are you sure you want to delete the record?</p>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close btn blue-grey lighten-2 waves-effect">Cancel</a>
-            <a href="#!" class="modal-close btn waves-effect red lighten-2">Agree</a>
+            <form action="delete.php" method="POST">
+                <input type="hidden" name="id" id="delete-contact-id">
+                <a href="#!" class="modal-close btn blue-grey lighten-2 waves-effect">Cancel</a>
+                <button type="submit" class="modal-close btn waves-effect red lighten-2" id="delete-contact-confirm">Agree</a>
+            </form>
         </div>
     </div>
     <!-- /Delete Modal Structure -->
@@ -159,6 +163,42 @@ endfor;
     <script src="js/pages/home.js"></script>
     <!--Custom JS-->
     <script src="js/custom.js" type="text/javascript"></script>
+
+    <!-- Toastr -->
+    <script>
+    
+<?php
+
+    $q = '';
+    $op = '';
+
+    if(isset($_GET['q']))
+    {
+        $q = $_GET['q'];
+    }
+
+    if(isset($_GET['op']))
+    {
+        $op = $_GET['op'];
+    }
+
+    if($q === 'success' && $op === 'insert'):              
+?>
+        let toastHTML = "<span>NEW Contact Created Successfully!</span>";
+        let classList = "green darken-1";
+        // materialize provided M.toast
+        M.toast({ 
+            html: toastHTML,
+            classes: classList
+        });
+<?php
+    endif;
+?>
+
+
+    </script>   
+    <!-- Toastr -->
+
 </body>
 
 </html>
